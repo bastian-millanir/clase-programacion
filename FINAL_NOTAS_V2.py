@@ -3,7 +3,7 @@ import csv
 #Funcion para traer y leer el archivo CSV
 def obtener_fichero_calificaciones():
     lista = []
-    with open(r"C:\Users\bruno\Downloads\calificaciones.csv", "r", newline="") as archivo:
+    with open(r"C:\Users\cetecom\Downloads\calificaciones.csv", "r", newline="") as archivo:
         lector_csv = csv.reader(archivo, delimiter=";")
         pos = 0
         for linea in lector_csv:
@@ -47,33 +47,35 @@ def obtener_fichero_calificaciones():
 
 #Funcion para añadir las notas de X alumno
 def añadir_nota_final(alumno):
-    if alumno['Ordinario1']:
+    
+    lista = []
+    if alumno['Ordinario1'] > 0:
         parcial1 = alumno['Ordinario1']
-    elif alumno['Parcial1']:
-        parcial1 = alumno['Parcial1']
-    else:
-        parcial1 = 0
-        
-    if alumno['Ordinario2']:
+    if alumno['Ordinario2'] > 0:
         parcial2 = alumno['Ordinario2']
-    elif alumno['Parcial2']:
-        parcial2 = alumno['Parcial2']
-    else:
-        parcial2 = 0
-        
-    if alumno['OrdinarioPracticas']:
+    if alumno['OrdinarioPracticas'] > 0:
         practicas = alumno['OrdinarioPracticas']
-    elif alumno['Practicas']:
-        practicas = alumno['Practicas']
-    else:
-        practicas = 0
-        
-    #Calculo final de notas parciales y nota final    
-    alumno['Final1'] = parcial1
-    alumno['Final2'] = parcial2
-    alumno['FinalPracticas'] = practicas
-    alumno['NotaFinal'] = parcial1 * 0.3 + parcial2 * 0.3 + practicas * 0.4
-    return alumno
+
+
+    alumno_Final1 = parcial1
+    alumno_Final2 = parcial2
+    alumno_FinalPracticas = practicas
+    alumno_NotaFinal = parcial1 * 0.3 + parcial2 * 0.3 + practicas * 0.4
+    alumno_Apellidos = alumno['Apellidos']
+    alumno_nombre = alumno['nombre']
+    alumno_asistencia = alumno['Asistencia']
+
+    lista.append({
+        'Apellidos': alumno_Apellidos,
+        'nombre': alumno_nombre,
+        'Asistencia': alumno_asistencia,
+        'Parcial1': alumno_Final1,
+        'Parcial2': alumno_Final2,
+        'Practicas': alumno_FinalPracticas,
+        'OrdinarioPracticas': alumno_NotaFinal,
+    })
+
+    return lista
 
 calificaciones = obtener_fichero_calificaciones()
 for alumno in calificaciones:
